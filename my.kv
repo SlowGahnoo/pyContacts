@@ -1,37 +1,73 @@
+#: import ListItemButton kivy.uix.listview.ListItemButton
+#: import ListAdapter kivy.adapters.listadapter.ListAdapter
 
 
-
-<ContactGrid>:
-	BoxLayout:
-		size:root.size	
-		orientation:"vertical"
-		ActionBar:
-			ActionView:
-				ActionPrevious:
-					title:"PyContacts"
-				ActionButton:
-					text:"Settings"
-	
-		ScrollView:
-			size:self.size
-			GridLayout:
-			
-				cols: 2
-				spacing: 5
-				padding: 5
+ScreenManager:
+  id: screen_manager
+  MenuScreen:
+    id: 'Menu'
+    name: 'Menu'
+    manager:'screen_manager'
+  SettingsScreen:
+    id: 'Settings'
+    name: 'Settings'
+    manager:'screen_manager'
+  AboutScreen:
+    id: 'About'
+    name: 'About'
+    manager:'screen_manager'
 
 
-				Button:
-					text:"Button 1"
-				Button:
-					text:"Button 2"
-				Button:
-					text:"Button 3"
-				Button:
-					text:"Button 4"
-				Button:
-					text:"Button 5"
-				Button:
-					text:"Button 6"
-			
+<MenuScreen>:
+  BoxLayout:
+    size:root.size
+    orientation:"vertical"
+    ActionBar:
+      ActionView:
+        ActionPrevious:
+          title:"pyContacts"
+          on_press: app.root.current='About'
+        ActionButton:
+          text:"Settings"
+          on_press: app.root.current='Settings'
+    
+    ContactList:
+      
 
+<ContactList>:
+  GridLayout: 
+    size:root.size
+    cols: 2
+    spacing: 5
+    padding: 5
+    Button:
+      text:"Contact1"
+    Button:
+      text:"Contact2"
+    Button:
+      text:"Contact3"
+    Button:
+      text:"Contact4"
+    Button:
+      text:"Contact5"
+    Button:
+      text:"Contact6"
+
+
+<SettingsScreen>:
+  BoxLayout:
+    size:root.size
+    orientation:"vertical"
+    Button:
+      text:"Button1"
+      on_press: app.root.current='Menu'
+
+<AboutScreen>:
+  BoxLayout:
+    size:root.size
+    orientation:"vertical"
+    Label:
+      text:"pyContacts\nversion 0.02"
+    Button:
+      text:"return"
+      on_press: app.root.current='Menu'
