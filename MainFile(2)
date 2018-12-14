@@ -1,0 +1,96 @@
+import sqlite3 as sq
+
+class Epafh():
+    def __init__(self):
+        # numbers={} dict that contains all the numbers that the particular user has.
+        self.numbers={}
+        
+    def __str__(self):
+        return '{x}'.format(x=self.numbers)
+    
+    def addNumber(self):
+        x=input("Type the number you want to add\n")
+        while not ( x.isdigit() and len(x)==10):
+            print('This is not an appropriate number, try again')
+            x=input("Type the number you want to add\n")
+        if int(x) in self.numbers.keys():
+            print('This number already exists')
+            return
+        y=input("What kind of of number is it? Please type one of the following. Mobile, Home, Office\n")
+        while y!='Mobile' and y!='Home' and y!='Office':
+            print('This is not an appropriate kind of number, try again')
+            y=input("What kind of of number is it? Please type one of the following. Mobile, Home, Office\n")
+        if y in self.numbers.values():
+            print('There is already a',y,'number')
+            return
+        x=int(x)
+        self.numbers[x]=y
+        
+    def deleteNumber(self):
+        x=input('Type the number you want to delete\n')
+        while not ( x.isdigit() and len(x)==10):
+            print('This is not an appropriate number, try again')
+            x=input("Type the number you want to add\n")
+        if int(x) in self.numbers.keys():
+            print('Number deleted')
+            self.numbers.pop(int(x))
+
+class File_Base():
+    def __init__(self):
+        self.file='file.csv'
+    def store(self):
+        pass
+    def retrieve(self):
+        pass
+
+
+#Menu
+People=[]
+# People=[] list that contains all the contact's names
+while 1:
+    x=int(input('1) Add a contact\n2) Add a number to a contact\n3) Delete a number\n4) Delete a contact\n5) Exit\n'))
+    
+    while not(x==1 or x==2 or x==3 or x==4 or x==5):
+        print('Not an acceptable number')
+        x=int(input('1) Add a contact\n2)Add a number to a contact\n3)Exit\n'))
+        
+    if x==1:
+        name=input('What so you want to be the name of your contact?\n')
+        if name in People:
+            print('There is already a contact with this name')
+        else:
+            People.append(name)
+            locals()[name]=Epafh()
+            locals()[name].addNumber()
+            print(locals()[name])
+            
+    if x==2:
+        name=input('In what contact do you want to add a number?\n')
+        print(People)
+        if not name in People:
+            print('There is no such contact')
+        else:
+            locals()[name].addNumber()
+            print(locals()[name])
+            
+    if x==3:
+        name=input('From what contact do you want to delete a number?\n')
+        print(People)
+        if not name in People:
+            print('There is no such contact')
+        else:
+            locals()[name].deleteNumber()
+            print(locals()[name])
+            
+    if x==4:
+        name=input('From what contact do you want to delete a number?\n')
+        print(People)
+        if not name in People:
+            print('There is no such contact')
+        else:
+            del locals()[name]
+            People.remove(name)
+            
+    if x==5:
+        break
+        
