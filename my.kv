@@ -23,13 +23,14 @@ ScreenManager:
     size:root.size
     orientation:"vertical"
     ActionBar:
-      ActionView:
+      ActionView: 
         ActionPrevious:
           title:"pyContacts"
-          on_press: app.root.current='About'
+          with_previous: False
+          on_release: app.root.current='About'
         ActionButton:
           text:"Settings"
-          on_press: app.root.current='Settings'
+          on_release: app.root.current='Settings'
     
     ContactList:
       
@@ -58,16 +59,33 @@ ScreenManager:
   BoxLayout:
     size:root.size
     orientation:"vertical"
-    Button:
-      text:"Button1"
-      on_press: app.root.current='Menu'
-
+    ActionBar:
+      ActionView:
+        ActionPrevious:
+          title:"Back"
+          on_release: app.root.current='Menu'
+    
+    BoxLayout:
+      size:root.size
+      orientation:"vertical"
+      spacing: 5
+      padding: 5
+      Button:
+        text:"Button1"
+      Button:
+        text:"Button2"
+      Button:
+        text:"Button3"
+      Button:
+        text:"Button4"
+      Button:
+        text:"Button5"
 <AboutScreen>:
   BoxLayout:
     size:root.size
     orientation:"vertical"
     Label:
-      text:"pyContacts\nversion 0.02"
+      text:" pyContacts\nversion 0.02"
     Button:
       text:"return"
-      on_press: app.root.current='Menu'
+      on_release: app.root.current='Menu'

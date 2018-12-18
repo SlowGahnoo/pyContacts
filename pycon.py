@@ -23,7 +23,6 @@ buildKV = Builder.load_file("my.kv")
 
 
 class MyApp(App):
-
     def build(self):
         return buildKV 
     
