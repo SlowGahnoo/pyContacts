@@ -8,6 +8,10 @@ ScreenManager:
     id: 'Menu'
     name: 'Menu'
     manager:'screen_manager'
+  AddContactScreen:
+    id:'AddContact'
+    name:'AddContact'
+    manager:'screen_manager'
   SettingsScreen:
     id: 'Settings'
     name: 'Settings'
@@ -17,12 +21,11 @@ ScreenManager:
     name: 'About'
     manager:'screen_manager'
 
-
-<MenuScreen>:
+<TopBar>:
   BoxLayout:
-    size:root.size
-    orientation:"vertical"
-    ActionBar:
+    size: root.size
+    ActionBar:   
+      pos_hint:{'top':1} 
       ActionView: 
         ActionPrevious:
           title:"pyContacts"
@@ -31,61 +34,75 @@ ScreenManager:
         ActionButton:
           text:"Settings"
           on_release: app.root.current='Settings'
-    
-    ContactList:
-      
-
-<ContactList>:
-  GridLayout: 
-    size:root.size
-    cols: 2
-    spacing: 5
-    padding: 5
-    Button:
-      text:"Contact1"
-    Button:
-      text:"Contact2"
-    Button:
-      text:"Contact3"
-    Button:
-      text:"Contact4"
-    Button:
-      text:"Contact5"
-    Button:
-      text:"Contact6"
-
-
-<SettingsScreen>:
+<ReturnBar>:
   BoxLayout:
-    size:root.size
-    orientation:"vertical"
-    ActionBar:
-      ActionView:
+    size: root.size
+    ActionBar:   
+      pos_hint:{'top':1} 
+      ActionView: 
         ActionPrevious:
           title:"Back"
           on_release: app.root.current='Menu'
+
+<MenuScreen>:
+  TopBar:
+  ContactList:
+      
+
+<ContactList>:
+  Button:
+    text: 'Add Contact'
+    on_release: app.root.current='AddContact'
+
+<AddContactScreen>:
+  ReturnBar:
+  BoxLayout:
+    padding: 50
+    width:root.width
+    height: 1  
+    orientation:"vertical"
+    Label:
+      text: 'Name'
+    TextInput:
+      multiline: False
+    Label:
+      text: 'Surname'
+    TextInput:
+      multiline: False
+    Label:
+      text: 'Mobile Number'
+    TextInput:
+      multiline: False
+    Label:
+      text: 'Home Number'
+    TextInput:
+      multiline: False
+    Label:  
+      text: 'Office Number'
+    TextInput:
+      multiline: False
+    Label:
+    Button:
+      text: 'Add Contact'
+
+
+
+<SettingsScreen>:
+  ReturnBar:
     
     BoxLayout:
-      size:root.size
+      width: root.width
       orientation:"vertical"
       spacing: 5
       padding: 5
       Button:
         text:"Button1"
-      Button:
-        text:"Button2"
-      Button:
-        text:"Button3"
-      Button:
-        text:"Button4"
-      Button:
-        text:"Button5"
 <AboutScreen>:
   BoxLayout:
     size:root.size
     orientation:"vertical"
     Label:
-      text:" pyContacts\nversion 0.02"
+      text:" pyContacts\nversion 0.03"
     Button:
       text:"return"
       on_release: app.root.current='Menu'
