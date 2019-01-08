@@ -27,6 +27,7 @@ while True:
     if usrInput == "2":
         try:
             usrREMOVE=input('who? (Enter first name)')
+            #Has to be fixed as it removes people that share the same name
             cursor.execute('DELETE FROM names WHERE name LIKE "{}"'.format(usrREMOVE))
             connection.commit()
         except: print('Error')
