@@ -2,32 +2,32 @@
 
 import sqlite3
 
-connection =sqlite3.connect('database.db')
+connection=sqlite3.connect('database.db')
 cursor = connection.cursor()
-try: cursor.execute('CREATE TABLE names (id INTEGER PRIMARY KEY, name TEXT, surname TEXT)')
+try: cursor.execute('CREATE TABLE names (name TEXT, surname TEXT)')
 except: pass
 while True: 
     cursor.execute('SELECT * FROM names')
     rows = cursor.fetchall()
     for row in rows:
-        print('name:'+str(row[1])+' surname: '+str(row[2]))
+        print('name:'+str(row[0])+' surname: '+str(row[1]))
     print('''What would you like to do?
     
        press  1 to add
        press  2 to remove 
        
         ''')
-    usr=input()
-    if usr == "1":
+    usrInput=input()
+    if usrInput == "1":
         try:
-            usr1,usr2=input().split(' ')
+            usrName,usrSurname=input().split(' ')
         except: pass
-        cursor.execute('INSERT INTO names VALUES(?, ?, ?)',(total, usr1, usr2))
+        cursor.execute('INSERT INTO names VALUES(?, ?)',(usrName, usrSurname))
         connection.commit()
-    if usr == "2":
+    if usrInput == "2":
         try:
-            usr=input('who? (Enter first name)')
-            cursor.execute('DELETE FROM names WHERE name LIKE "{}"'.format(usr))
+            usrREMOVE=input('who? (Enter first name)')
+            cursor.execute('DELETE FROM names WHERE name LIKE "{}"'.format(usrREMOVE))
             connection.commit()
         except: print('Error')
 
