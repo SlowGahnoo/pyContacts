@@ -8,8 +8,8 @@ ScreenManagement:
 <InitialWindow>:
   orientation: 'vertical'
   BoxLayout:
-    size_hint_y:0.7
     Label:
+      size:root.size
       markup: True
       text:'[size=32]Welcome to[color=3333ff] [b]pyContacts[/b][/color][/size]'
   Button:
@@ -68,6 +68,7 @@ ScreenManagement:
     height:root.height
     width:root.width
     padding: 50
+    Label:
     Label:
       text: 'First Name'
     TextInput:
