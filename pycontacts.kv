@@ -1,68 +1,100 @@
+
 ScreenManagement:
   MainScreen:
     name:'Menu'
   AssignScreen:
     name:'AssignContact'
 
-<Bar>:
+<InitialWindow>:
+  orientation: 'vertical'
   BoxLayout:
-    size:root.size
-    ActionBar:
-      pos_hint:{'top':1}
-      ActionView:
-        ActionPrevious:
-          title:'pyContacts'
-          on_release: root.popup.open()
+    size_hint_y:0.7
+    Label:
+      markup: True
+      text:'[size=32]Welcome to[color=3333ff] [b]pyContacts[/b][/color][/size]'
+  Button:
+    size_hint_y:0.1
+    text: 'Touch here to continue'
+    on_release: app.root.current='Menu'
+    on_release: root.create_database()
+  BoxLayout:
+    size_hint_y:0.2
 
-<MainScreen>:
-  Bar:
+<ContactsWindow>:
+  orientation:'vertical'
+  ActionBar:
+    pos_hint:{'top':1}
+    ActionView:
+      ActionPrevious:
+        with_previous: False
+        title:'pyContacts'
+        on_release: root.popup.open()
+  BoxLayout:
+    orientation:'vertical'
     BoxLayout:
       orientation:'horizontal'
-      height: 80
-      width: root.width
+      size_hint_y: None
+      height:80
       Button:
-        text: 'Add Contact'
-        on_release: app.root.current='AssignContact'
+        text:'+'
+        on_release:app.root.current='AssignContact'
       Button:
-        text: 'Remove Contact'
-        on_release: app.root.current='AssignContact'
+        text:'-'
+        on_release:app.root.current='AssignContact'
       Button:
-        text: 'Edit Contact'
-        on_release: app.root.current='AssignContact'
+        text:'Edit'
+        on_release:app.root.current='AssignContact'
+ 
+
+
+<MainScreen>:
+  ContactsWindow:
+
+<AddContactButton>:
+  font_size: self.height*0.5
+  text:'+'
+  on_release: root.create_new_contact()
 
 <AssignScreen>:
-  Bar:
-    BoxLayout:
-      orientation:'vertical'
-      height:root.height
-      width:root.width
-      padding: 50
-      Label:
-        text: 'First Name'
-      TextInput:
-        multiline: False
-      Label:
-        text: 'Last Name'
-      TextInput:
-        multiline: False
-      Label:
-        text: 'Mobile Number'
-      TextInput:
-        multiline: False
-      Label:
-        text: 'Hone Number'
-      TextInput:
-        multiline: False
-      Label:
-        text: 'Office Number'
-      TextInput:
-        multiline: False
-      Label:
-      Label:
-    BoxLayout:
-      width:root.width
-      height: 80
-      orientantion:'horizontal'
-      Button:
-        text:'Submit'
+  ActionBar:
+    pos_hint:{'top':1}
+    ActionView:
+      ActionPrevious:
+        title:'Return'
         on_release: app.root.current='Menu'
+
+  BoxLayout:
+    orientation:'vertical'
+    height:root.height
+    width:root.width
+    padding: 50
+    Label:
+      text: 'First Name'
+    TextInput:
+      multiline: False
+    Label:
+      text: 'Last Name'
+    TextInput:
+      multiline: False
+    Label:
+      text: 'Phone Number 1'
+    TextInput:
+      multiline: False
+    Label:
+      text: 'Phone Number 2'
+    TextInput:
+      multiline: False
+    Label:
+      text: 'Phone Number 3'
+    TextInput:
+      multiline: False
+    Label:
+  BoxLayout:
+    size_hint_y: None
+    width:root.width
+    height: 80
+    orientantion:'horizontal'
+    Button:
+      text:'Submit'
+      on_release: app.root.current='Menu'
+
