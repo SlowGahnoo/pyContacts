@@ -40,28 +40,35 @@ while True:
         
     if usrInput == "2":
         try:
-            usrREMOVE=input('who? (Enter first name)')
-            cursor.execute('DELETE FROM Contacts WHERE name LIKE "{}"'.format(usrREMOVE))
+            usrName=input('Type the fist name of the contact you want to delete\n')
+            usrSurname=input('Type the surname of the contact you want to delete\n')
+            cursor.execute('DELETE FROM Contacts WHERE name LIKE "{}" AND surname LIKE "{}"'.format(usrName,usrSurname))
             connection.commit()
         except: print('Error')
         
     if usrInput == "3":
-        usrName=input('What is the name of the contact?')
-        usrSurname=input('What is the surname of the contact?')
+        usrName=input('What is the name of the contact?\n')
+        usrSurname=input('What is the surname of the contact?\n')
         cursor.execute('SELECT * FROM Contacts WHERE name="{}" AND surname="{}"'.format(usrName,usrSurname))
         matrix=cursor.fetchall()
         if matrix == []:
             print('This contact does not exist')
             
         else:
-            usrKind=input('What do you want to add or change?(Mobile,Home,Office)')
+            usrKind=input('What do you want to add or change?(Mobile,Home,Office)\n')
             if not (usrKind=='Mobile' or usrKind=='Home' or usrKind=='Office'):
-                print('This is not a valid kind of number')
+                print('This is not a valid kind of number\n')
             else:
-                usrNumber=input('Type the number you want to add')
-##                cursor.execute('INSERT INTO Contacts (Home) WHERE name="{}" AND surname="{}" VALUES(?)'.format(usrKind,usrName,usrSurname),(usrNumber))
-                cursor.execute('UPDATE Contacts SET ("{}"=?) WHERE name LIKE "{}" AND surname LIKE"{}" '.format(usrKind,usrName,usrSurname)),(usrNumber)
+                usrNumber=input('Type the number you want to add\n')
+                
+                if usrKind=='Home':
+                    cursor.execute('UPDATE Contacts SET Home=? WHERE name=? AND surname=?',(usrNumber,usrName,usrSurname))
+                elif usrKind=='Mobile':
+                    cursor.execute('UPDATE Contacts SET Mobile=? WHERE name=? AND surname=?',(usrNumber,usrName,usrSurname))
+                elif usrKind=='Office':
+                    cursor.execute('UPDATE Contacts SET Office=? WHERE name=? AND surname=?',(usrNumber,usrName,usrSurname))
                 connection.commit()
         
     if usrInput=="4":
         break
+
