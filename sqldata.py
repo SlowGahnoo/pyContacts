@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import Epafes_importable as Ep
 import sqlite3
 
 connection=sqlite3.connect('Contacts.db')
