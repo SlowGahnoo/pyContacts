@@ -1,0 +1,92 @@
+<MainScreen>:
+
+<InitialScreen>:
+  orientation: 'vertical'
+  Label:
+    size_hint_y:0.7
+    font_size:'30sp'
+    markup: True
+    text: 'Welcome to py[b][color=2B5EB2]Contacts[/color][/b]'
+  Button:
+    size_hint_y:0.1
+    text: 'Touch here to continue'
+    on_release: root.create_database()
+  BoxLayout:
+    size_hint_y:0.2
+
+<ContactScreen>:
+  BoxLayout:
+    orientation:'vertical'
+    ScrollView:
+      size:self.size
+      GridLayout:
+        id: container
+        padding: [10,10,10,10]
+        spacing: 5
+        size_hint_y: None
+        cols: 1
+        row_default_height: root.height*0.2
+        height: self.minimum_height
+    BoxLayout:
+      id:button_bar
+      size_hint_y:0.1
+
+<DataWidget>:
+  data: '' 
+  canvas:
+    Color:
+      rgb:0.2,0.2,0.2
+    Rectangle:
+      size:self.size
+      pos:self.pos
+  Label:
+    size_hint_x:0.9
+    size_font:self.width*0.4
+    text: root.data
+  Button:
+    size_hint_x:0.1
+    text:'edit'
+    on_press: root.update_data(root.data_id)
+
+<AssignContactButton>:
+  text:'+' 
+  on_release: root.create_new_contact()
+
+<AssignContactScreen>:
+  orientation:'vertical'
+  padding:50
+  Label:
+    text:'Name'
+  TextInput:
+    id:name_input
+    multiline: False
+  Label:
+    text:'Surname'
+  TextInput:
+    id:surname_input
+    multiline: False
+  Label:
+    text:'Phone Number 1'
+  TextInput:
+    id:num1_input
+    multiline: False
+  Label:
+    text:'Phone Number 2'
+  TextInput:
+    id:num2_input
+    multiline: False
+  Label:
+    text:'Phone Number 3'
+  TextInput:
+    id:num3_input
+    multiline: False
+  BoxLayout:
+    size_hint_y:5
+  BoxLayout:
+    Button:
+      text:'Confirm'
+      on_release: root.insert_data()
+    Button:
+      text:'Cancel'
+      on_release: root.return_back()
+   
