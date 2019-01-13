@@ -24,17 +24,15 @@ def connect_database(path):
         connection.close()
     except Exception as e:
         print(e)
-
+#change names
 def create_data_table(cursor):
     cursor.execute('''
-
     CREATE TABLE Contacts(
     Name           TEXT NOT NULL,
     Surname        TEXT NOT NULL,
-    PhoneNumber1   INT NOT NULL,
-    PhoneNumber2   INT NOT NULL,
-    PhoneNumber3   INT NOT NULL
-
+    Mobile         INT NOT NULL,
+    Home           INT NOT NULL,
+    Office         INT NOT NULL
     )   '''     
                )
 
@@ -45,7 +43,7 @@ class MainScreen(ScreenManager):
     def __init__(self,**kwargs):
         super(MainScreen,self).__init__()
         self.APP_PATH=os.getcwd()
-        self.DB_PATH=self.APP_PATH+'/data.db'
+        self.DB_PATH=self.APP_PATH+'/Contacts.db'
         self.InitialScreen=InitialScreen(self)
         self.ContactScreen=ContactScreen(self)
         self.AssignContactScreen=BoxLayout()
@@ -120,25 +118,24 @@ class ContactScreen(BoxLayout):
        
        
        
-Help poor children in Uganda!
 
-              www.iccf.nl
         
         '''
-
+#delete this
+#change names
     def check_memory(self):
         self.ids.container.clear_widgets()  # refreshes container and
         self.ids.button_bar.clear_widgets() # prevents duplicates from spawining 
         connection=sqlite3.connect(self.mainscreen.DB_PATH)
         cursor=connection.cursor()
-        cursor.execute('SELECT Name, Surname, PhoneNumber1, PhoneNumber2, PhoneNumber3 from Contacts ')
+        cursor.execute('SELECT Name, Surname, Mobile, Home, Office from Contacts ')
         for i in cursor:
             widget=DataWidget(self.mainscreen)
             row1='Name: '+i[0]+'\n'
             row2='Surname: '+i[1]+'\n'
-            row3='Phone Number 1: '+str(i[2])+'\n'
-            row4='Phone Number 2: '+str(i[3])+'\n'
-            row5='Phone Number 3: '+str(i[4])+'\n'
+            row3='Mobile: '+str(i[2])+'\n'
+            row4='Home: '+str(i[3])+'\n'
+            row5='Office: '+str(i[4])+'\n'
             widget.data= row1+row2+row3+row4+row5
             widget.data_id1=i[0]
             widget.data_id2=i[1]
@@ -169,8 +166,8 @@ class AssignContactScreen(BoxLayout):
         usrPhone2=self.ids.num2_input.text
         usrPhone3=self.ids.num3_input.text
         usrInput=(usrName,usrSurname,usrPhone1,usrPhone2,usrPhone3)
-        insertion='INSERT INTO Contacts(Name,Surname,PhoneNumber1,PhoneNumber2,PhoneNumber3)'
-        values="""VALUES('{}',"{}",{},"{}","{}")""".format(usrName,usrSurname,usrPhone1,usrPhone2,usrPhone3)
+        insertion='INSERT INTO Contacts(Name,Surname,Mobile,Home,Office)'
+        values="""VALUES('{}',"{}","{}","{}","{}")""".format(usrName,usrSurname,usrPhone1,usrPhone2,usrPhone3)
         try:
             cursor.execute('SELECT * FROM Contacts WHERE Name="{}" AND Surname="{}"'.format(usrName,usrSurname))
             matrix=cursor.fetchall()
@@ -189,10 +186,7 @@ class AssignContactScreen(BoxLayout):
             message=self.mainscreen.Popup.ids.message
             self.mainscreen.Popup.open()
             self.mainscreen.Popup.title='Data base error'
-            if '' in usrInput:
-                message.text='Please insert at least a name and a number'
-            else:
-                message.text=str(error)
+            message.text=str(error)
 
 
 
@@ -210,7 +204,7 @@ class EditContactScreen(BoxLayout):
     def check_memory(self):
         connection=sqlite3.connect(self.mainscreen.DB_PATH)
         cursor=connection.cursor()
-        selection="""SELECT PhoneNumber1,PhoneNumber2,PhoneNumber3 from Contacts WHERE Name='{}' AND Surname="{}" """.format(self.data_id1,self.data_id2)
+        selection="""SELECT Mobile,Home,Office from Contacts WHERE Name='{}' AND Surname="{}" """.format(self.data_id1,self.data_id2)
         cursor.execute(selection)
         for i in cursor:
             self.ids.num1_input.text=str(i[0])
@@ -228,7 +222,7 @@ class EditContactScreen(BoxLayout):
         usrPhone3=self.ids.num3_input.text
         usrInput=(usrName,usrSurname,usrPhone1,usrPhone2,usrPhone3)
         query1='UPDATE Contacts SET'
-        query2="""PhoneNumber1={}, PhoneNumber2="{}", PhoneNumber3="{}" """.format(usrPhone1,usrPhone2,usrPhone3)
+        query2="""Mobile="{}", Home="{}", Office="{}" """.format(usrPhone1,usrPhone2,usrPhone3)
         query3="""WHERE Name='{}' AND Surname="{}" """.format(usrName,usrSurname)
         try:
             cursor.execute(query1+' '+query2+' '+query3)
@@ -240,10 +234,7 @@ class EditContactScreen(BoxLayout):
             message=self.mainscreen.Popup.ids.message
             self.mainscreen.Popup.open()
             self.mainscreen.Popup.title='Data base error'
-            if '' in usrInput:
-                message.text='Please insert at least a name and a number'
-            else:
-                message.text=str(error)
+            message.text=str(error)
 
     def delete_data(self):
         connection=sqlite3.connect(self.mainscreen.DB_PATH)
