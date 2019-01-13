@@ -22,9 +22,9 @@ def connect_database(path):
         create_data_table(cursor)
         connection.commit()
         connection.close()
-    except Exception as e:
-        print(e)
-#change names
+    except Exception as error: # Used for debugging
+        print(error)
+
 def create_data_table(cursor):
     cursor.execute('''
     CREATE TABLE Contacts(
@@ -36,14 +36,14 @@ def create_data_table(cursor):
     )   '''     
                )
 
-class Message(Popup):
+class Message(Popup): # Self explanatory
     pass 
 
-class MainScreen(ScreenManager):
+class MainScreen(ScreenManager): # Most important Class in the program, leads to every other screen and function of the program, leaving it alone is recommended 
     def __init__(self,**kwargs):
         super(MainScreen,self).__init__()
         self.APP_PATH=os.getcwd()
-        self.DB_PATH=self.APP_PATH+'/Contacts.db'
+        self.DB_PATH=self.APP_PATH+'/Contacts.db' # Seeks out installation folder and generates the database
         self.InitialScreen=InitialScreen(self)
         self.ContactScreen=ContactScreen(self)
         self.AssignContactScreen=BoxLayout()
@@ -121,11 +121,9 @@ class ContactScreen(BoxLayout):
 
         
         '''
-#delete this
-#change names
-    def check_memory(self):
+    def check_memory(self): # Reads through the database
         self.ids.container.clear_widgets()  # refreshes container and
-        self.ids.button_bar.clear_widgets() # prevents duplicates from spawining 
+        self.ids.button_bar.clear_widgets() # prevents duplicates from spawning 
         connection=sqlite3.connect(self.mainscreen.DB_PATH)
         cursor=connection.cursor()
         cursor.execute('SELECT Name, Surname, Mobile, Home, Office from Contacts ')
@@ -169,7 +167,7 @@ class AssignContactScreen(BoxLayout):
         insertion='INSERT INTO Contacts(Name,Surname,Mobile,Home,Office)'
         values="""VALUES('{}',"{}","{}","{}","{}")""".format(usrName,usrSurname,usrPhone1,usrPhone2,usrPhone3)
         try:
-            cursor.execute('SELECT * FROM Contacts WHERE Name="{}" AND Surname="{}"'.format(usrName,usrSurname))
+            cursor.execute('SELECT * FROM Contacts WHERE Name="{}" AND Surname="{}"'.format(usrName,usrSurname)) # Reads through the database to find a duplicate contact
             matrix=cursor.fetchall()
             if matrix!=[]:
                 message=self.mainscreen.Popup.ids.message
