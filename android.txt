@@ -1,3 +1,3 @@
 title=pyContacts-latest
-author=
+author=Omada-45
 orientation=<portrait>
